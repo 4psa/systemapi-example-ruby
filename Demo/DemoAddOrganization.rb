@@ -14,12 +14,18 @@ gem 'soap4r'
 require 'VoIpNowServiceDriver.rb'
 require 'soap/header/simplehandler'
 
+if ARGV.length != 1
+  puts "Usage: ruby <ruby_file.rb> \"<access_token>\"\n"
+  puts "example: ruby DemoAddOrganization.rb \"1|V_pmPvEm25-HrqAzERx_nvJbBvNs~q3F|1|v-gntT4GFH-UCUX0EM2_r9XTVDtw~qCF\"\n"
+  abort
+end
+
 # Custom header for authentication
 class AuthHeader < SOAP::Header::SimpleHandler
   # the namespace for the header data
-  NAMESPACE = 'http://4psa.com/HeaderData.xsd/3.0.0'
+  NAMESPACE = 'http://4psa.com/HeaderData.xsd/3.5.0'
   # authentication data
-  ACCESS_TOKEN = 'CHANGEME'
+  ACCESS_TOKEN = ARGV[0]
 
   #initializes an instance of this class
   def initialize()
@@ -118,8 +124,12 @@ messagePart = AddOrganization.new
 # Fill in Organization data
 messagePart.name = 'OrgRuby' + rand(1000).to_s
 messagePart.login = 'OrgRuby' + rand(1000).to_s
+messagePart.firstName = 'FirstnameRuby' + rand(1000).to_s
+messagePart.lastName = 'LastnameRuby' + rand(1000).to_s
+messagePart.email = 'Email' + rand(1000).to_s + '@example.com'
 messagePart.password = SecureRandom.hex(16)
 messagePart.country = 'us'
+messagePart.company = 'test_company'
 messagePart.parentID = serviceProviderID
 if chargingPlanID != nil
 	messagePart.chargingPlanID = chargingPlanID

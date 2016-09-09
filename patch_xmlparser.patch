@@ -1,0 +1,11 @@
+--- lib/xsd/xmlparser.rb	2016-07-20 08:04:31.587390407 +0000
++++ lib/xsd/xmlparser.rb	2016-07-20 08:04:53.771153043 +0000
+@@ -63,7 +63,7 @@
+     # XXX: MUST BE REMOVED IN THE FUTURE
+     name = lib.sub(/^.*\//, '')
+     raise LoadError unless XSD::XMLParser.constants.find { |c|
+-      c.downcase == name
++      c.to_s.downcase == name
+     }
+     loaded = true
+     break

@@ -1,0 +1,13 @@
+--- bin/wsdl2ruby.rb	2016-07-20 08:02:07.230443142 +0000
++++ bin/wsdl2ruby.rb	2016-07-20 08:02:53.743847930 +0000
+@@ -1,7 +1,10 @@
+ #!/usr/bin/env ruby
+ 
++gem 'logger-application'
++
+ require 'getoptlong'
+ require 'logger'
++require 'logger-application' unless defined?(Logger::Application)
+ require 'wsdl/soap/wsdl2ruby'
+ 
+ 

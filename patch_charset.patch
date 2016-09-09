@@ -1,0 +1,20 @@
+--- lib/xsd/charset.rb	2016-07-20 07:47:32.779242573 +0000
++++ lib/xsd/charset.rb	2016-07-20 07:49:45.572831398 +0000
+@@ -10,7 +10,7 @@
+ 
+ 
+ module Charset
+-  @internal_encoding = $KCODE
++  @internal_encoding = (RUBY_VERSION.to_f >= 1.9) ? 'UTF8' : $KCODE
+ 
+   class XSDError < StandardError; end
+   class CharsetError < XSDError; end
+@@ -105,7 +105,7 @@
+   end
+ 
+   def Charset.encoding_conv(str, enc_from, enc_to)
+-    if enc_from == enc_to or enc_from == 'NONE' or enc_to == 'NONE'
++    if enc_from == enc_to or enc_from.gsub("-", "") == enc_to.gsub("-", "") or enc_from == 'NONE' or enc_to == 'NONE'
+       str
+     elsif converter = EncodingConvertMap[[enc_from, enc_to]]
+       converter.call(str)

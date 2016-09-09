@@ -1,0 +1,38 @@
+--- lib/xsd/codegen/gensupport.rb	2016-07-20 07:51:08.068227451 +0000
++++ lib/xsd/codegen/gensupport.rb	2016-07-20 08:23:39.637355967 +0000
+@@ -236,24 +236,26 @@
+ private
+ 
+   def trim_eol(str)
+-    str.collect { |line|
+-      line.sub(/\r?\n\z/, "") + "\n"
+-    }.join
++    finalstr = ""
++    str.split(/\n/).each { |line|
++      finalstr = finalstr + line.rstrip
++      finalstr = finalstr + "\n"
++    }
++    str = finalstr
++    return str
+   end
+ 
+   def trim_indent(str)
+     indent = nil
+-    str = str.collect { |line| untab(line) }.join
+-    str.each do |line|
++    str.split(/\n/).each { |line| untab(line) }.join
++    str.split(/\n/) { |line|
+       head = line.index(/\S/)
+       if !head.nil? and (indent.nil? or head < indent)
+         indent = head
+       end
+-    end
++    }
+     return str unless indent
+-    str.collect { |line|
+-      line.sub(/^ {0,#{indent}}/, "")
+-    }.join
++    str.split(/^ {0,#indent}}/, "").join
+   end
+ 
+   def untab(line, ts = 8)
